@@ -14,7 +14,7 @@ import NoteForm from '@/components/NoteForm/NoteForm';
 
 import css from './NotesPage.module.css';
 
-export default function NotesClient() {
+export default function NotesClient({ tag }: { tag?: string }) {
   const [page, setPage] = useState<number>(1);
   const perPage = 10;
 
@@ -24,13 +24,19 @@ export default function NotesClient() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const queryKey = useMemo(
-    () => ['notes', { page, perPage, search: debouncedSearch }],
-    [page, perPage, debouncedSearch]
+    () => ['notes', { page, perPage, search: debouncedSearch, tag: tag ?? 'all' }],
+    [page, perPage, debouncedSearch, tag]
   );
 
   const { data, isLoading, error, isFetching } = useQuery({
     queryKey,
-    queryFn: () => fetchNotes({ page, perPage, search: debouncedSearch }),
+    queryFn: () =>
+      fetchNotes({
+        page,
+        perPage,
+        search: debouncedSearch,
+        ...(tag ? { tag } : {}),
+      }),
     placeholderData: keepPreviousData,
   });
 
