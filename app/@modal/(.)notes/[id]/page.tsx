@@ -3,11 +3,11 @@ import { notFound } from 'next/navigation';
 import ModalRoute from '@/components/Modal/ModalRoute';
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 };
 
 export default async function NotePreview({ params }: Props) {
-  const { id } = await params;
+  const { id } = params;
 
   let note;
   try {
