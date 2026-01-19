@@ -3,18 +3,20 @@ import { notFound } from 'next/navigation';
 import ModalRoute from '@/components/Modal/ModalRoute';
 
 type Props = {
-  params: { id: string };
+  params: { id: string } | Promise<{ id: string }>;
 };
 
 export default async function NotePreview({ params }: Props) {
-  const { id } = params;
+  const { id } = await params;
 
   let note;
   try {
     note = await fetchNoteById(id);
-  } catch {
+  } catch (e) {
     notFound();
   }
+
+  if (!note) notFound();
 
   return (
     <ModalRoute>
