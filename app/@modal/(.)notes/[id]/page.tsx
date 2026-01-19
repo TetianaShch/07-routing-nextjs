@@ -19,3 +19,4 @@ export default async function NotePreview({ params }: Props) {
     </ModalRoute>
   );
 }
+ 
