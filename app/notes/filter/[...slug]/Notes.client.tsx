@@ -16,11 +16,13 @@ import css from './NotesPage.module.css';
 
 type Props = {
   slug?: string[];
+  onTagChange?: () => void;
 };
 
 export default function NotesClient({ slug }: Props) {
   const rawTag = slug?.[0];
   const tag = rawTag === 'all' ? undefined : rawTag;
+
   const [page, setPage] = useState<number>(1);
   const perPage = 10;
 
