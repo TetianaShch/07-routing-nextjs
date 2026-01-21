@@ -20,8 +20,7 @@ type Props = {
 };
 
 export default function NotesClient({ slug }: Props) {
-  const rawTag = slug?.[0];
-  const tag = rawTag === 'all' ? undefined : rawTag;
+  const tag = slug?.[0] ?? 'all';
 
   const [page, setPage] = useState<number>(1);
   const perPage = 10;
@@ -32,15 +31,7 @@ export default function NotesClient({ slug }: Props) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const queryKey = useMemo(
-    () => [
-      'notes',
-      {
-        page,
-        perPage,
-        search: debouncedSearch,
-        ...(tag ? { tag } : {}),
-      },
-    ],
+    () => ['notes', { page, perPage, search: debouncedSearch, tag }],
     [page, perPage, debouncedSearch, tag]
   );
 
@@ -51,7 +42,7 @@ export default function NotesClient({ slug }: Props) {
         page,
         perPage,
         search: debouncedSearch,
-        ...(tag ? { tag } : {}),
+        ...(tag === 'all' ? {} : { tag }),
       }),
     placeholderData: keepPreviousData,
   });
