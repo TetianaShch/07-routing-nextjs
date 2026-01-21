@@ -18,6 +18,7 @@ export interface FetchNotesParams {
   page?: number;
   perPage?: number;
   search?: string;
+  tag?: string;
 }
 
  export interface CreateNotePayload {
@@ -40,13 +41,25 @@ export const fetchNotes = async ({
   page = 1,
   perPage = 10,
   search = '',
+  tag,
 }: FetchNotesParams): Promise<FetchNotesResponse> => {
+  const params: Record<string, string | number> = {
+    page,
+    perPage,
+    search,
+  };
+
+  if (tag) {
+    params.tag = tag;
+  }
+
   const { data } = await api.get<FetchNotesResponse>('/notes', {
-    params: { page, perPage, search },
+    params,
   });
 
   return data;
 };
+
 
 export const deleteNote = async (id: string): Promise<Note> => {
   const { data } = await api.delete<Note>(`/notes/${id}`);
