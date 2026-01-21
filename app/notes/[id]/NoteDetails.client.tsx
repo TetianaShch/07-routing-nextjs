@@ -1,4 +1,6 @@
 'use client';
+import { useRouter } from 'next/navigation';
+import Modal from '@/components/Modal/Modal';
 
 import { useQuery } from '@tanstack/react-query';
 import { fetchNoteById } from '@/lib/api';
@@ -9,6 +11,7 @@ type Props = {
 };
 
 export default function NoteDetailsClient({ id }: Props) {
+  const router = useRouter();
   const {
     data: note,
     isLoading,
@@ -29,14 +32,19 @@ export default function NoteDetailsClient({ id }: Props) {
   }
 
   return (
-    <div className={css.container}>
-      <div className={css.item}>
-        <div className={css.header}>
-          <h2>{note.title}</h2>
+    <Modal onClose={() => router.back()}>
+      <div className={css.container}>
+        <div className={css.item}>
+          <div className={css.header}>
+            <h2>{note.title}</h2>
+            <button type="button" onClick={() => router.back()}>
+              Close
+            </button>
+          </div>
+          <p className={css.content}>{note.content}</p>
+          <p className={css.date}>{note.createdAt}</p>
         </div>
-        <p className={css.content}>{note.content}</p>
-        <p className={css.date}>{note.createdAt}</p>
       </div>
-    </div>
+    </Modal>
   );
 }
