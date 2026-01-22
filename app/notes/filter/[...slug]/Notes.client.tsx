@@ -61,15 +61,13 @@ export default function NotesClient({ tag }: Props) {
         <button type="button" className={css.button} onClick={openModal}>
           Add note
         </button>
-
+        {data.totalPages > 1 && (
+          <Pagination page={page} totalPages={data.totalPages} onPageChange={setPage} />
+        )}
         <SearchBox value={search} onChange={handleSearchChange} />
       </div>
 
       {isFetching && <p>Updating...</p>}
-
-      {data.totalPages > 1 && (
-        <Pagination page={page} totalPages={data.totalPages} onPageChange={setPage} />
-      )}
 
       {data.notes.length === 0 ? <p>No notes found.</p> : <NoteList notes={data.notes} />}
 
