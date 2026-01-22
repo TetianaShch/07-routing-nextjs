@@ -15,13 +15,10 @@ import NoteForm from '@/components/NoteForm/NoteForm';
 import css from './NotesPage.module.css';
 
 type Props = {
-  slug?: string[];
-  onTagChange?: () => void;
+  tag: string;
 };
 
-export default function NotesClient({ slug }: Props) {
-  const tag = slug?.[0] ?? 'all';
-
+export default function NotesClient({ tag }: Props) {
   const [page, setPage] = useState<number>(1);
   const perPage = 10;
 
